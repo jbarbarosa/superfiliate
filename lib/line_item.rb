@@ -6,10 +6,15 @@ module Superfiliate
       @name = name
       @price = price
       @sku = sku
+      @discounted = false
     end
 
     def discounted?
-      false
+      @discounted
+    end
+
+    def discount
+      @discounted = true
     end
   end
 end

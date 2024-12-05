@@ -5,5 +5,9 @@ module Superfiliate
     def initialize(line_items)
       @line_items = line_items
     end
+
+    def apply_promotion(promotion)
+      promotion.apply @line_items
+    end
   end
 end
