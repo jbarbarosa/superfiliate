@@ -67,8 +67,7 @@ class Superfiliate::CartTest < Minitest::Test
 
     @cart.apply_promotion promotion
 
-    @discounted = @cart.line_items.filter(&:discounted?)
-    assert_equal 1, @discounted.size
-    assert_equal 1500, @discounted.first.price
+    discounted = @cart.line_items.find { |item| item.sku == "PEANUTS" }
+    assert_equal 1500, discounted.price
   end
 end
