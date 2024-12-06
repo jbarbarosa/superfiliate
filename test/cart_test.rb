@@ -30,4 +30,31 @@ class Superfiliate::CartTest < Minitest::Test
 
     assert_equal 1, @cart.line_items.filter(&:discounted?).size
   end
+
+  def test_should_not_apply_discount_for_non_eligible_items
+    promotion = Superfiliate::Promotion.new({
+      prerequisite_skus: [ "CHOCOLATE" ],
+      eligible_skus: [ "TOOTHPASTE" ],
+      discount_unit: "percentage",
+      discount_value: 50.0
+    })
+
+    @cart.apply_promotion promotion
+
+    assert_equal 0, @cart.line_items.filter(&:discounted?).size
+  end
+
+def test_should_not_apply_discount_if_no_prerequisite_items
+    promotion = Superfiliate::Promotion.new({
+      prerequisite_skus: [ "TOOTHPASTE" ],
+      eligible_skus: [ "PEANUTS" ],
+      discount_unit: "percentage",
+      discount_value: 50.0
+    })
+
+    @cart.apply_promotion promotion
+
+    assert_equal 0, @cart.line_items.filter(&:discounted?).size
+  end
+
 end

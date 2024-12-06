@@ -8,7 +8,13 @@ module Superfiliate
     end
 
     def apply(line_items)
-      line_items.first.discount
+      prereq = line_items.filter { |item| @prerequisite_skus.include? item.sku }
+      return unless prereq.any?
+
+      eligible = line_items.filter { |item| @eligible_skus.include? item.sku }
+      return unless eligible.any?
+
+      eligible.each { |item| item.discount @discount_unit, @discount_value }
     end
   end
 end

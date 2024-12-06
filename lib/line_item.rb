@@ -13,7 +13,7 @@ module Superfiliate
       @discounted
     end
 
-    def discount
+    def discount(unit, value)
       @discounted = true
     end
   end
