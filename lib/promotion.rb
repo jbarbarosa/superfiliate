@@ -1,5 +1,7 @@
 module Superfiliate
   class Promotion
+    PERCENTAGE = "percentage"
+
     def initialize(options)
       @prerequisite_skus = options[:prerequisite_skus]
       @eligible_skus = options[:eligible_skus]
@@ -19,9 +21,24 @@ module Superfiliate
         .each { |item| item.discount @discount_unit, @discount_value }
     end
 
+    def valid!
+      unless @discount_unit == PERCENTAGE
+        raise InvalidDiscountUnit.new("#{@discount_unit} is not a valid discount_unit") 
+      end
+      true
+    end
+
     private
       def sort_by_cheapest(line_items)
         line_items.sort_by(&:price)
       end
+  end
+
+  class InvalidDiscountUnit < Exception
+    attr_reader :message
+
+    def initialize(msg)
+      @message = msg
+    end
   end
 end

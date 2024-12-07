@@ -11,9 +11,21 @@ class Superfiliate::PromotionTest < Minitest::Test
     @promotion = Superfiliate::Promotion.new({
       prerequisite_skus: [ "CHOCOLATE" ],
       eligible_skus: [ "PEANUTS", "FRUITY" ],
-      discount_unit: "percentage",
+      discount_unit: Superfiliate::Promotion::PERCENTAGE,
       discount_value: 50.0
     })
+    @promotion.valid!
+  end
+
+  def test_should_have_valid_discount_unit
+    promotion = Superfiliate::Promotion.new({
+      discount_unit: "dunno",
+      discount_value: 50.0
+    })
+
+    assert_raises Superfiliate::InvalidDiscountUnit do
+      promotion.valid!
+    end
   end
 
   def test_should_apply_discount_on_eligible_item
@@ -26,7 +38,7 @@ class Superfiliate::PromotionTest < Minitest::Test
     promotion = Superfiliate::Promotion.new({
       prerequisite_skus: [ "CHOCOLATE" ],
       eligible_skus: [ "TOOTHPASTE" ],
-      discount_unit: "percentage",
+      discount_unit: Superfiliate::Promotion::PERCENTAGE,
       discount_value: 50.0
     })
 
@@ -39,7 +51,7 @@ class Superfiliate::PromotionTest < Minitest::Test
     promotion = Superfiliate::Promotion.new({
       prerequisite_skus: [ "TOOTHPASTE" ],
       eligible_skus: [ "PEANUTS" ],
-      discount_unit: "percentage",
+      discount_unit: Superfiliate::Promotion::PERCENTAGE,
       discount_value: 50.0
     })
 
@@ -52,7 +64,7 @@ class Superfiliate::PromotionTest < Minitest::Test
     promotion = Superfiliate::Promotion.new({
       prerequisite_skus: [ "CHOCOLATE" ],
       eligible_skus: [ "PEANUTS" ],
-      discount_unit: "percentage",
+      discount_unit: Superfiliate::Promotion::PERCENTAGE,
       discount_value: 50.0
     })
 
