@@ -14,6 +14,8 @@ module Superfiliate
     end
 
     def discount(unit, value)
+      return if discounted?
+
       @price -= (value / 100) * @price
       @discounted = true
     end
