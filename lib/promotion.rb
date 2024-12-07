@@ -14,7 +14,12 @@ module Superfiliate
       eligible = line_items.filter { |item| @eligible_skus.include? item.sku }
       return unless eligible.any?
 
-      eligible.each { |item| item.discount @discount_unit, @discount_value }
+      sort_by_cheapest(eligible).first(1).each { |item| item.discount @discount_unit, @discount_value }
     end
+
+    private
+      def sort_by_cheapest(line_items)
+        line_items.sort_by(&:price)
+      end
   end
 end
