@@ -100,4 +100,23 @@ class Superfiliate::CartTest < Minitest::Test
     assert peanuts.discounted?
     refute fruity.discounted?
   end
+
+  def test_when_2_eligible_skus_are_available_should_apply_2_discounts
+    promotion = Superfiliate::Promotion.new({
+      prerequisite_skus: [ "CHOCOLATE" ],
+      eligible_skus: [ "PEANUTS" ],
+      discount_unit: "percentage",
+      discount_value: 50.0
+    })
+
+    @cart.add Superfiliate::LineItem.new "Chocolate", 2000, "CHOCOLATE"
+    @cart.add Superfiliate::LineItem.new "Peanuts", 3000, "PEANUTS"
+    @cart.add Superfiliate::LineItem.new "Peanuts", 3000, "PEANUTS"
+
+    assert_equal 18000, @cart.total
+    @cart.apply_promotion promotion
+
+    assert_equal 15000, @cart.total
+    assert_equal @cart.line_items.filter(&:discounted?).size, 2
+  end
 end

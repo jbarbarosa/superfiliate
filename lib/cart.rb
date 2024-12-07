@@ -11,6 +11,10 @@ module Superfiliate
       promotion.apply @line_items
     end
 
+    def add(line_item)
+      @line_items << line_item
+    end
+
     def total
       @total ||= line_items.reduce(0) { |total, item| total + item.price }
     end
