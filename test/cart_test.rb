@@ -70,4 +70,17 @@ class Superfiliate::CartTest < Minitest::Test
     discounted = @cart.line_items.find { |item| item.sku == "PEANUTS" }
     assert_equal 1500, discounted.price
   end
+
+  def test_should_display_cart_total_price
+    promotion = Superfiliate::Promotion.new({
+      prerequisite_skus: [ "CHOCOLATE" ],
+      eligible_skus: [ "PEANUTS" ],
+      discount_unit: "percentage",
+      discount_value: 50.0
+    })
+
+    assert_equal @cart.total, 5000
+    @cart.apply_promotion promotion
+    assert_equal @cart.total, 3500
+  end
 end
