@@ -32,7 +32,7 @@ class CartDiscountTest < Minitest::Test
     payload = {
       cart: {
         ref: "2d832fe0-6c96-4515-9be7-4c00983539c1",
-        itemz: [
+        lineItems: [
           { namez: "Peanut Butter", sku: "PEANUT-BUTTER" },
           { namez: "Fruity", price: "34.99", sku: "FRUITY" },
           { namez: "Chocolate", price: "32", sku: "CHOCOLATE" }
@@ -42,5 +42,6 @@ class CartDiscountTest < Minitest::Test
 
     post "/carts/discount", payload, { "CONTENT_TYPE" => "application/json", "HTTP_HOST" => "localhost" }
     refute last_response.ok?, "Expected response to be 422, was #{last_response.status}"
+    assert JSON.parse(last_response.body)["errors"].size > 1
   end
 end

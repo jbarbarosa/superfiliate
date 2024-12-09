@@ -5,6 +5,13 @@ module Superfiliate
   class Cart
     attr_reader :reference, :line_items
 
+    def self.from_json(json)
+      Cart.new(
+        LineItem.from_json(json[:cart][:lineItems]),
+        json[:cart][:reference]
+      )
+    end
+
     def initialize(line_items, reference = nil)
       @line_items = line_items
       @reference = reference || SecureRandom.uuid
