@@ -1,9 +1,8 @@
 require "sinatra"
 require "json-schema"
-require_relative "../model/cart"
-require_relative "../model/line_item"
-require_relative "../model/promotion"
 require_relative "cart_schema"
+require_relative "../model/cart"
+require_relative "../model/promotion"
 
 before do
   content_type :json

@@ -1,5 +1,6 @@
 require "securerandom"
 require "json"
+require_relative "line_item"
 
 module Superfiliate
   class Cart
