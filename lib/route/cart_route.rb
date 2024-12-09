@@ -8,6 +8,10 @@ before do
   content_type :json
 end
 
+configure do
+  set :bind, '0.0.0.0'
+end
+
 post "/carts/discount" do
   body = request.body.read
   json_payload = JSON.parse(body, symbolize_names: true)
