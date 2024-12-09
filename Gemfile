@@ -8,6 +8,8 @@ gem "rackup"
 
 gem "puma"
 
+gem "json-schema"
+
 group :local do
   gem "debug"
   gem "minitest"
