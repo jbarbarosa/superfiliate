@@ -8,7 +8,7 @@ module Superfiliate
 
     def initialize(name, price, sku)
       @name = name
-      @price = price
+      @price = format_price price
       @sku = sku
       @discounted = false
     end
@@ -28,7 +28,17 @@ module Superfiliate
     end
 
     def to_hash(options = {})
-      { name: @name, price: @price, sku: @sku }
+      { name: @name, price: (@price / 100).round(2), sku: @sku }
     end
+
+    private
+      # for safety we should only do calculations against integers, and convert back for display
+      def format_price(price)
+        if price.kind_of? Float
+          price * 100
+        else   
+          price 
+        end
+      end
   end
 end

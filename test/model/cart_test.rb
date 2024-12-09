@@ -27,8 +27,8 @@ class Superfiliate::CartTest < Minitest::Test
       discount_value: 50.0
     })
 
-    assert_equal @cart.total, 10000
+    assert_equal 10000, @cart.total
     @cart.apply_promotion promotion
-    assert_equal @cart.total, 8500
+    assert_equal 8500, @cart.total 
   end
 end

@@ -21,4 +21,9 @@ class Superfiliate::LineItemTest < Minitest::Test
     assert @item.discounted?
     assert_equal 1500, @item.price
   end
+
+  def test_should_convert_input_float_to_integer
+    @item = Superfiliate::LineItem.new("Peanut Butter", 30.0, "PEANUTS")
+    assert_equal 3000, @item.price
+  end
 end

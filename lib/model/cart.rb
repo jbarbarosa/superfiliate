@@ -24,7 +24,7 @@ module Superfiliate
     end
 
     def as_json(options = {})
-      JSON.generate({ reference: @reference, line_items: @line_items&.map(&:to_hash), total: total.round(2) })
+      JSON.generate({ reference: @reference, line_items: @line_items&.map(&:to_hash), total: (total / 100).round(2) })
     end
   end
 end
