@@ -17,22 +17,17 @@ module Superfiliate
     def apply(line_items)
       return if line_items.nil?
 
-      eligible, prereq = [], []
-      line_items.each do |item|
-        eligible << item if @eligible_skus.include? item.sku
-        prereq << item if @prerequisite_skus.include? item.sku
+      sorted = sort_by_cheapest(line_items)
+      prerequisite = sorted.filter { |item| @prerequisite_skus.include? item.sku }
+      return if prerequisite.empty?
+
+      eligible = sorted.filter { |item| @eligible_skus.include? item.sku }
+      return if eligible.empty?
+
+      if prerequisite.size == 1 && eligible.size == 1
+        return if prerequisite.first == eligible.first
       end
-
-      eligible = sort_by_cheapest(eligible)
-      prereq.each do |discounter|
-        next if discounter.discounted?
-
-        index = eligible.find_index { |item| item != discounter && !item.discounted? }
-        return if index.nil?
-
-        eligible.delete_at(index).discount @discount_unit, @discount_value
-        eligible.delete_if { |item| item == discounter }
-      end
+      eligible.first.discount @discount_unit, @discount_value
     end
 
     def valid!

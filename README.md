@@ -26,6 +26,3 @@ There will be a endpoint available at localhost:4567/carts/discount that accepts
 
 This should yield a discount on `Chocolate`, since Peanut Butter and Fruity both work as prerequisites
 
-Since the requirement was not 100% clear on what should happen with multiple prerequisites and multiple eligible SKUs,
-I decided that it would be sensible to issue discounts for every prerequisite-eligible pair in the cart. So having 2 eligible SKUs
-should yield 2 discounts, based on their price
