@@ -2,7 +2,12 @@ module Superfiliate
   class Promotion
     PERCENTAGE = "percentage"
 
-    def initialize(options)
+    def initialize(options = {
+      prerequisite_skus: ["PEANUT-BUTTER", "COCOA", "FRUITY"],
+      eligible_skus: ["BANANA-CAKE", "COCOA", "CHOCOLATE"],
+      discount_unit: "percentage",
+      discount_value: 50.0
+    })
       @prerequisite_skus = options[:prerequisite_skus]
       @eligible_skus = options[:eligible_skus]
       @discount_unit = options[:discount_unit]
