@@ -1,6 +1,6 @@
 def schema = {
   "type" => "object",
-  "required" => ["cart"],
+  "required" => [ "cart" ],
   "properties" => {
     "cart" => {
       "type" => "object",

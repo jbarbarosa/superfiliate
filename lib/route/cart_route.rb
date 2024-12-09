@@ -9,7 +9,7 @@ before do
 end
 
 configure do
-  set :bind, '0.0.0.0'
+  set :bind, "0.0.0.0"
 end
 
 post "/carts/discount" do
@@ -22,4 +22,3 @@ post "/carts/discount" do
   cart.apply_promotion Superfiliate::Promotion.new
   cart.as_json
 end
-

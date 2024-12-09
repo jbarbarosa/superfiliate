@@ -25,8 +25,8 @@ module Superfiliate
 
     def total
       @total ||= if line_items.nil?
-        0 
-      else 
+        0
+      else
         line_items.reduce(0) { |total, item| total + item.price }
       end
     end

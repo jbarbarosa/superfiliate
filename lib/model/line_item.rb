@@ -36,8 +36,8 @@ module Superfiliate
       def format_price(price)
         if price.kind_of? Float
           price * 100
-        else   
-          price 
+        else
+          price
         end
       end
   end
