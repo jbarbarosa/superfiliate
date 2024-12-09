@@ -10,6 +10,8 @@ module Superfiliate
     end
 
     def apply(line_items)
+      return if line_items.nil?
+
       prereq = line_items.filter { |item| @prerequisite_skus.include? item.sku }
       return unless prereq.any?
 
@@ -22,6 +24,8 @@ module Superfiliate
     end
 
     def valid!
+      # since there's no requirement for other discount units I only left this as an example
+      # of what a more elaborate validation would look like
       unless @discount_unit == PERCENTAGE
         raise InvalidDiscountUnit.new("#{@discount_unit} is not a valid discount_unit") 
       end
