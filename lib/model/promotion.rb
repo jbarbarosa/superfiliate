@@ -31,6 +31,7 @@ module Superfiliate
         return if index.nil?
 
         eligible.delete_at(index).discount @discount_unit, @discount_value
+        eligible.delete_if { |item| item == discounter }
       end
     end
 

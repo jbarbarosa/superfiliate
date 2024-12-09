@@ -107,4 +107,24 @@ class Superfiliate::PromotionTest < Minitest::Test
 
     assert_equal 0, @line_items.filter(&:discounted?).size
   end
+
+  def test_when_item_gave_discount_it_should_not_itself_be_discounted
+    @promotion = Superfiliate::Promotion.new({
+      prerequisite_skus: [ "CHOCOLATE" ],
+      eligible_skus: [ "CHOCOLATE" ],
+      discount_unit: Superfiliate::Promotion::PERCENTAGE,
+      discount_value: 50.0
+    })
+
+    @line_items = [
+      Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE"),
+      Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE"),
+      Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE"),
+      Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE")
+    ]
+
+    @promotion.apply @line_items
+
+    assert_equal 2, @line_items.filter(&:discounted?).size
+  end
 end
