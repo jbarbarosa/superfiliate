@@ -1,12 +1,12 @@
 ## Running
 With docker installed is as easy as 
-```ruby
+```sh
 chmod +x bin/run && bin/run
 ```
 
-Or you can install Ruby 3 locally and run 
-```ruby
-ruby lib/route/cart_route.rb
+Or you can install Ruby 3 & Bundle locally and run 
+```sh
+bundle && ruby lib/route/cart_route.rb
 ```
 
 ## Testing
@@ -24,5 +24,5 @@ There will be a endpoint available at localhost:4567/carts/discount that accepts
 }  
 ```
 
-This should yield a discount on `Chocolate`, since Peanut Butter and Fruity both work as prerequisites
+This should yield a discount on `Chocolate`, since `Peanut Butter` and `Fruity` both work as prerequisites
 
