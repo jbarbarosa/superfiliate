@@ -20,7 +20,7 @@ module Superfiliate
 
     def apply_promotion(promotion)
       @total = nil
-      promotion.apply @line_items
+      @line_items = promotion.apply @line_items
     end
 
     def total
@@ -28,7 +28,7 @@ module Superfiliate
     end
 
     def as_json(options = {})
-      JSON.generate({ reference: @reference, lineItems: @line_items&.map(&:to_hash), total: (total / 100).round(2) })
+      JSON.generate({ reference: @reference, lineItems: @line_items&.map(&:to_hash), total: (total.to_f / 100).round(2) })
     end
   end
 end

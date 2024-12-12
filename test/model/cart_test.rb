@@ -1,11 +1,12 @@
 require "test_helper"
+require "debug"
 
 class Superfiliate::CartTest < Minitest::Test
   def setup
     @line_items = [
-      Superfiliate::LineItem.new("Peanut Butter", 3000, "PEANUTS"),
-      Superfiliate::LineItem.new("Fruity Loops", 5000, "FRUITY"),
-      Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE")
+      Superfiliate::LineItem.new("Peanut Butter", 30.0, "PEANUTS"),
+      Superfiliate::LineItem.new("Fruity Loops", 50.0, "FRUITY"),
+      Superfiliate::LineItem.new("Chocolate", 20.0, "CHOCOLATE")
     ]
 
     @cart = Superfiliate::Cart.new @line_items

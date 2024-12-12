@@ -6,11 +6,11 @@ module Superfiliate
       json&.map { |element| LineItem.new(element[:name], element[:price].to_f, element[:sku]) }
     end
 
-    def initialize(name, price, sku)
+    def initialize(name, price, sku, options = {})
       @name = name
       @price = format_price price
       @sku = sku
-      @discounted = false
+      @discounted = options[:discounted] || false
     end
 
     def discounted?
@@ -18,26 +18,30 @@ module Superfiliate
     end
 
     def discount(unit, value)
-      return if discounted?
+      return self if discounted?
 
       case unit
       when "percentage"
-        @price -= (value / 100) * @price
-        @discounted = true
+        price = @price - (value / 100) * @price
+        LineItem.new(name, price.to_i, sku, discounted: true)
       end
     end
 
     def to_hash(options = {})
-      { name: @name, price: (@price / 100).round(2), sku: @sku }
+      { name: @name, price: (@price.to_f / 100).round(2), sku: @sku }
+    end
+
+    def dup
+      LineItem.new @name, @price, @sku, discounted: discounted?
     end
 
     private
       # for safety we should only do calculations against integers, and convert back for display
       def format_price(price)
         if price.kind_of? Float
-          price * 100
+          (price * 100).to_i
         else
-          price
+          price.to_i
         end
       end
   end

@@ -1,11 +1,12 @@
 require "test_helper"
+require "debug"
 
 class Superfiliate::PromotionTest < Minitest::Test
   def setup
     @line_items = [
-      Superfiliate::LineItem.new("Peanut Butter", 3000, "PEANUTS"),
-      Superfiliate::LineItem.new("Fruity Loops", 5000, "FRUITY"),
-      Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE")
+      Superfiliate::LineItem.new("Peanut Butter", 30.0, "PEANUTS"),
+      Superfiliate::LineItem.new("Fruity Loops", 50.0, "FRUITY"),
+      Superfiliate::LineItem.new("Chocolate", 20.0, "CHOCOLATE")
     ]
 
     @promotion = Superfiliate::Promotion.new({
@@ -29,7 +30,7 @@ class Superfiliate::PromotionTest < Minitest::Test
   end
 
   def test_should_apply_discount_on_eligible_item
-    @promotion.apply @line_items
+    @line_items = @promotion.apply @line_items
 
     assert_equal 1, @line_items.filter(&:discounted?).size
   end
@@ -42,7 +43,7 @@ class Superfiliate::PromotionTest < Minitest::Test
       discount_value: 50.0
     })
 
-    promotion.apply @line_items
+    @line_items = promotion.apply @line_items
 
     assert_equal 0, @line_items.filter(&:discounted?).size
   end
@@ -55,7 +56,7 @@ class Superfiliate::PromotionTest < Minitest::Test
       discount_value: 50.0
     })
 
-    promotion.apply @line_items
+    @line_items = promotion.apply @line_items
 
     assert_equal 0, @line_items.filter(&:discounted?).size
   end
@@ -68,7 +69,7 @@ class Superfiliate::PromotionTest < Minitest::Test
       discount_value: 50.0
     })
 
-    promotion.apply @line_items
+    @line_items = promotion.apply @line_items
 
     discounted = @line_items.find { |item| item.sku == "PEANUTS" }
     assert_equal 1500, discounted.price
@@ -91,7 +92,7 @@ class Superfiliate::PromotionTest < Minitest::Test
       Superfiliate::LineItem.new("Chocolate", 6000, "CHOCOLATE")
     ]
 
-    @promotion.apply @line_items
+    @line_items = @promotion.apply @line_items
 
     discounted = @line_items.filter(&:discounted?)
     assert_equal "BANANA-CAKE", discounted.first.sku
@@ -111,7 +112,7 @@ class Superfiliate::PromotionTest < Minitest::Test
       Superfiliate::LineItem.new("Peanut Butter", 2000, "PEANUT-BUTTER")
     ]
 
-    @promotion.apply @line_items
+    @line_items = @promotion.apply @line_items
     discounted = @line_items.filter(&:discounted?)
     assert_equal "CHOCOLATE", discounted.first.sku
     assert_equal 1, discounted.size
@@ -127,7 +128,7 @@ class Superfiliate::PromotionTest < Minitest::Test
 
     @line_items = [ Superfiliate::LineItem.new("Chocolate", 2000, "CHOCOLATE") ]
 
-    @promotion.apply @line_items
+    @line_items = @promotion.apply @line_items
 
     assert_equal 0, @line_items.filter(&:discounted?).size
   end

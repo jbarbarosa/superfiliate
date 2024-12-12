@@ -15,19 +15,23 @@ module Superfiliate
     end
 
     def apply(line_items)
-      return if line_items.nil?
+      return line_items if line_items.nil?
 
       sorted = sort_by_cheapest(line_items)
       prerequisite = sorted.filter { |item| @prerequisite_skus.include? item.sku }
-      return if prerequisite.empty?
+      return line_items if prerequisite.empty?
 
       eligible = sorted.filter { |item| @eligible_skus.include? item.sku }
-      return if eligible.empty?
+      return line_items if eligible.empty?
 
       if prerequisite.size == 1 && eligible.size == 1
-        return if prerequisite.first == eligible.first
+        return line_items if prerequisite.first == eligible.first
       end
-      eligible.first.discount @discount_unit, @discount_value
+
+      discounted = eligible.first.discount(@discount_unit, @discount_value)
+      result = line_items.map(&:dup)
+      line_items.find_index(eligible.first).then { |i| result[i] = discounted }
+      result
     end
 
     def valid!
