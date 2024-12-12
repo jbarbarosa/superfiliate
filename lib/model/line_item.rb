@@ -17,6 +17,11 @@ module Superfiliate
       @discounted
     end
 
+    # CON: A good alternative here is a version where you don't need to mutate the original
+    # object. Of course it would require you to keep a reference to the original cart
+    # but it could be an interesting solution as well.
+    #
+    # For example it could make it easier to return a price comparsion in a future feature..
     def discount(unit, value)
       return if discounted?
 
@@ -32,6 +37,8 @@ module Superfiliate
     end
 
     private
+      # PRO: Using integer for making safe calculations.
+      #
       # for safety we should only do calculations against integers, and convert back for display
       def format_price(price)
         if price.kind_of? Float
