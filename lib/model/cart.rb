@@ -6,6 +6,7 @@ module Superfiliate
   class Cart
     attr_reader :reference, :line_items
 
+    # PRO: Really liked this class method that returns a parsed instance of the object
     def self.from_json(json)
       Cart.new(
         LineItem.from_json(json[:cart][:lineItems]),
@@ -24,6 +25,10 @@ module Superfiliate
     end
 
     def total
+      # CON: add a bit of syntax sugar
+      #
+      # @total ||= (line_items || []).sum { |item| item[:price] }
+      #
       @total ||= if line_items.nil?
         0
       else

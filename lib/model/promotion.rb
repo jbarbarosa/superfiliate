@@ -24,6 +24,11 @@ module Superfiliate
       eligible = sorted.filter { |item| @eligible_skus.include? item.sku }
       return if eligible.empty?
 
+      # PRO: Great catch here on the edge chase, since we should allow
+      # getting a discount on your second COCOA box, but not if you're buying a singele one.
+      #
+      # In this case since you're working with line items object, the comparison here will work
+      # as they're not the same object, but the same line item.
       if prerequisite.size == 1 && eligible.size == 1
         return if prerequisite.first == eligible.first
       end
@@ -39,6 +44,7 @@ module Superfiliate
       true
     end
 
+    # CON: Could beneft from a linter such as rubocop, making sure the indentation is consistent
     private
       def sort_by_cheapest(line_items)
         line_items.sort_by(&:price)

@@ -1,3 +1,4 @@
+# PRO: Great test coverage
 require "test_helper"
 
 class Superfiliate::PromotionTest < Minitest::Test
