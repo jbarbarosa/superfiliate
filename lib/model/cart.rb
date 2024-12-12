@@ -24,11 +24,7 @@ module Superfiliate
     end
 
     def total
-      @total ||= if line_items.nil?
-        0
-      else
-        line_items.reduce(0) { |total, item| total + item.price }
-      end
+      @total ||= (line_items || []).sum { |item| item.price }
     end
 
     def as_json(options = {})

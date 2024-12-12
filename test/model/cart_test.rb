@@ -19,6 +19,10 @@ class Superfiliate::CartTest < Minitest::Test
     assert @cart.line_items.filter(&:discounted?).empty?
   end
 
+  def test_when_empty_should_report_total_as_0
+    assert_equal 0, Superfiliate::Cart.new([]).total
+  end
+
   def test_should_display_cart_total_price_after_promotion
     promotion = Superfiliate::Promotion.new({
       prerequisite_skus: [ "CHOCOLATE" ],
