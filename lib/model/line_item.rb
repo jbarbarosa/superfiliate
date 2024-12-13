@@ -37,13 +37,13 @@ module Superfiliate
     end
 
     private
-      # for safety we should only do calculations against integers, and convert back for display
-      def format_price(price)
-        if price.kind_of? Float
-          (price * 100).round
-        else
-          price.to_i
-        end
+    # for safety we should only do calculations against integers, and convert back for display
+    def format_price(price)
+      if price.kind_of? Float
+        (price * 100).round
+      else
+        price.to_i
       end
+    end
   end
 end
