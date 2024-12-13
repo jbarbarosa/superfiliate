@@ -8,9 +8,10 @@ module Superfiliate
 
     def initialize(name, price, sku, options = {})
       @name = name
-      @price = format_price price
+      @price = format_price(price)
       @sku = sku
       @discounted = options[:discounted] || false
+      self.freeze
     end
 
     def discounted?
